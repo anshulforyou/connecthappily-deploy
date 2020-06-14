@@ -1,0 +1,22 @@
+<!DOCTYPE html>	
+<html>			
+<head>			
+	<title>Cart</title>
+</head>			
+<body>			
+	<table>		
+		<form action="" method="POST">	
+			{% for item in list %} 
+			<tr>
+				<td>{{item[0]}}</td>
+				<td>{{item[1]}}</td>
+				<td>{{item[2]}}</td>
+				<td>{{item[3]}}</td>
+				<td>{{item[4]}}</td>
+			</tr>
+			{% endfor %}
+			<input type="submit" name="order" value="Place order">
+		</form>	
+	</table>	
+</body>			
+</html>			

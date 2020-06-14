@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Signup</title>
+</head>
+<body>
+	<h1>Warehouse Signup</h1>
+	<form method="POST" action="">
+		<p>Warehouse name:<input type="text" name="name" placeholder="Name"></p>
+		<p>Company's Name:<input type="text" name="enterprise" placeholder="Company"></p>
+		<p>Owner Name:<input type="text" name="owner" placeholder="Owner's Name"></p>
+		<p>mobile:<input type="text" name="mobile" placeholder="mobile"></p>
+		<p>username:<input type="text" name="username" placeholder="username"></p><p class="alert" 
+			{% if fail %}
+			style="visibility: visible; display: inline-block;"
+			{%else%}	
+			style="visibility: hidden; display: inline-block;"
+			{%endif%} 
+			>Username already taken</p>
+		<p>Password:<input type="password" name="password" placeholder="Password"></p>
+		<p><input type="submit" name="submit" value="Signup"></p>
+	</form>
+</body>
+</html>
