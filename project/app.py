@@ -99,6 +99,7 @@ def signup_warehouse():
 #     userDetails = cur.fetchall()
 #     return render_template('users.html', userDetails=userDetails)
 
+# @app.route('/', methods=['GET','POST'])
 @app.route('/login' ,methods=['GET','POST'])
 def login():
     if request.method=='POST':
@@ -122,8 +123,10 @@ def login():
                     cur.close()
                     return redirect('/warehouse/'+str(id))
                 else:
+                    cur.close()
                     return render_template('login1.html', wrong=True)
             else:
+                cur.close()
                 return render_template('login1.html', wrong=True)
         else:
             cur.execute('select password from users where username =(%s)', (user1,))
@@ -137,8 +140,10 @@ def login():
                     cur.close()
                     return redirect('/selectwarehouse/' + str(id))
                 else:
+                    cur.close()
                     return render_template('login1.html', wrong=True)
             else:
+                cur.close()
                 return render_template('login1.html', wrong=True)
     return render_template('login1.html', wrong=False)
 
