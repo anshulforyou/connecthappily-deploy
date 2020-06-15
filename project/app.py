@@ -87,10 +87,10 @@ def signup_warehouse():
         try:
             cur.execute('insert into warehouses(warehouse_name, enterprise, owner_name, mobile, username, password) values(%s, %s, %s, %s, %s, %s);', (name, enterprise, owner, mobile, username, password))
             conn.commit()
-            cur.close
+            cur.close()
             return redirect(url_for('login'))
         except:
-            cur.close
+            cur.close()
             return render_template('signup_warehouse1.html', fail = True)
             # return <script>alert('username already taken')</script>
     return render_template('signup_warehouse1.html', fail = False)
