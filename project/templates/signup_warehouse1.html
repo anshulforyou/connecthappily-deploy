@@ -81,7 +81,13 @@
                         </div>
                         {%if fail%}
                         <div ><p style="text-align: center; margin-top: 20px; color: red;">Username already taken, please try another username</p></div>
+                        {% elif mob_f%}
+                        <div><p style="text-align: center; margin-top: 20px; color: red;">Mobile Number Invalid</p></div>
                         {%endif%}
+                        <div class="text-center">
+                    <p><a href="{{url_for('feedback')}}" class="txt2 hov1">
+                        Feedback
+                    </a></p>
                     </form>
                 </div>
             </div>

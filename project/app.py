@@ -55,6 +55,8 @@ def signup():
         username = userDetails['username']
         store_name = userDetails['store_name']
         mobile = userDetails['Mobile']
+        if len(mobile) != 10:
+            return render_template('signup1.html', fail = False, mob_f = True)
         password = userDetails['password']
         cur = conn.cursor()
         try:
@@ -76,6 +78,9 @@ def signup_warehouse():
         enterprise = details['enterprise']
         owner = details['owner']
         mobile = details['mobile']
+        print(len(mobile))
+        if len(mobile) != 10:
+            return render_template('signup_warehouse.html', fail = False, mob_f=True)
         username = details['username']
         password = details['password']
         cur = conn.cursor()
@@ -178,10 +183,20 @@ itemlist= None
 def warehouse(user):
     if request.method == 'POST':
         if request.form['submit'] == 'Add':
+            cur = conn.cursor()
             listitem = request.form
             item_name = listitem['item_name']
             company = listitem['company']
-            price = listitem['price']
+            try:
+                price = int(listitem['price'])
+            except:
+                cur.execute('select * from items where warehouse_id = (%s);', (user1,))
+                global itemlist
+                itemlist = cur.fetchall()
+                cur.close()
+                return render_template('warehouse1.html', itemlist=itemlist, price_f=True)
+            user1 = int(user)
+            # print(type(price))
             expiry_date = listitem['expiry_date']
             # print(listitem['availability'])
             availibility =listitem['availability']
@@ -212,10 +227,10 @@ def warehouse(user):
         cur = conn.cursor()
         user1 = int(user)
         cur.execute('select * from items where warehouse_id = (%s);', (user1,))
-        global itemlist
+        # global itemlist
         itemlist = cur.fetchall()
         cur.close()
-        return render_template('warehouse1.html', itemlist=itemlist)
+        return render_template('warehouse1.html', itemlist=itemlist, price_f =False)
         #     print('itemlist is none')
         #     return render_template('warehouse.html')
 

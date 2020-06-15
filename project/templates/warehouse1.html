@@ -68,6 +68,9 @@
                     </div>
                     </form>
                     <form method="POST" action="">
+                        {%if price_f%}
+                        <div ><p style="text-align: center; margin: 20px;color: red;">Price entered is invalid</p></div>
+                        {%endif%}
                         <div class="row row-space">
                             <div class="col-2">
                                 <div class="input-group">
@@ -118,7 +121,7 @@
                             <div class="col-2">
                                 <div class="input-group">
                                     <label class="label">Item Price</label>
-                                    <input class="input--style-4" type="text" name="price">
+                                    <input class="input--style-4" type="number" name="price">
                                 </div>
                             </div>
                         </div>
@@ -138,11 +141,17 @@
                             <!-- <button class="btn btn--radius-2 btn--blue" type="submit">Submit</button> -->
                             <input type="submit" name="submit" value="Add" class="btn btn--radius-2 btn--blue">
                         </div>
+                        
                     </form>
                     <form method="POST" action="">
                         <div class="p-t-15">
                         <input type="submit" name="submit" value="Orders" class="btn btn--radius-2 btn--blue">
                         </div>
+                        <div class="text-center">
+                    <p style="text-align: center; margin-top: 20px"><a href="{{url_for('feedback')}}" class="txt2 hov1">
+                        Feedback
+                    </a></p>
+                </div>
                     </form>
                 </div>
             </div>
