@@ -200,7 +200,7 @@ def warehouse(user):
             expiry_date = listitem['expiry_date']
             # print(listitem['availability'])
             availibility =listitem['availability']
-            cur = conn.cursor()
+            # cur = conn.cursor()
             # user1 = int(user)
             # cur.execute('select * from items where warehouse_id = (%s);', (user1,))
             # global itemlist

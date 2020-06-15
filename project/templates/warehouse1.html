@@ -10,7 +10,7 @@
     <!-- <meta name="keywords" content="Colorlib Templates"> -->
 
     <!-- Title Page-->
-    <title>Registration Form</title>
+    <title>Add Items</title>
 
     <!-- Icons font CSS-->
     <link href="vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
@@ -31,9 +31,11 @@
         <div class="wrapper wrapper--w680">
             <div class="card card-4">
                 <div class="card-body">
-                    <h2 class="title">Registration Form</h2>
+                    <h2 class="title">Add Items</h2>
+                    <form method="POST" action="">
+                		
                     <div class="table-wrapper">
-                        <!-- <form method="POST" action=""> -->
+                                	
                         <table class="fl-table">
                             <thead>
                                 <tr>
@@ -47,7 +49,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <form method="POST" action="">
+                                
                                 {% for item in itemlist %}
                                 <tr>
                                     <td>{{item[0]}}</td>
@@ -150,6 +152,8 @@
                         <div class="text-center">
                     <p style="text-align: center; margin-top: 20px"><a href="{{url_for('feedback')}}" class="txt2 hov1">
                         Feedback
+                    </a> | <a href="{{url_for('login')}}" class="txt2 hov1">
+                        Sign Out
                     </a></p>
                 </div>
                     </form>

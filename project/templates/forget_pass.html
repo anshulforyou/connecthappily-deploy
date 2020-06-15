@@ -10,7 +10,7 @@
     <meta name="keywords" content="Colorlib Templates">
 
     <!-- Title Page-->
-    <title>Au Register Forms by Colorlib</title>
+    <title>Forget Password</title>
 
     <!-- Icons font CSS-->
     <link href="vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
@@ -77,6 +77,11 @@
                         {%if fail%}
                         <div ><p style="text-align: center; margin-top: 20px; color: red;">Details do not match</p></div>
                         {%endif%}
+                        <div class="text-center">
+                    <p style="text-align: center;"><a href="{{url_for('feedback')}}" class="txt2 hov1">
+                        Feedback
+                    </a></p>
+                </div>
                     </form>
                 </div>
             </div>
