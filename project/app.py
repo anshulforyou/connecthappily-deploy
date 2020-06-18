@@ -56,8 +56,11 @@ def signup():
         store_name = userDetails['store_name']
         mobile = userDetails['Mobile']
         if len(mobile) != 10:
-            return render_template('signup1.html', fail = False, mob_f = True)
+            return render_template('signup1.html', fail = False, mob_f = True, pass1 =False)
         password = userDetails['password']
+        password2 = userDetails['password2']
+        if password != password2:
+            return render_template('signup1.html', fail = False, mob_f =False, pass1 =True)
         cur = conn.cursor()
         try:
             cur.execute("INSERT INTO users(name, store_name, mobile, password, username) values(%s, %s, %s, %s, %s);",
@@ -67,8 +70,8 @@ def signup():
             return redirect('/login')
         except:
             cur.close()
-            return render_template('signup1.html', fail=True)
-    return render_template('signup1.html', fail=False)
+            return render_template('signup1.html', fail=True, pass1 = False)
+    return render_template('signup1.html', fail=False, pass1 = False)
 
 @app.route('/signup_warehouse', methods=['POST', 'GET'])
 def signup_warehouse():
@@ -80,9 +83,12 @@ def signup_warehouse():
         mobile = details['mobile']
         print(len(mobile))
         if len(mobile) != 10:
-            return render_template('signup_warehouse.html', fail = False, mob_f=True)
+            return render_template('signup_warehouse1.html', fail = False, mob_f=True, pass1=False)
         username = details['username']
         password = details['password']
+        password2 = details['password2']
+        if password != password2:
+            return render_template('signup_warehouse1.html', fail=False, mob_f=False, pass1=True)
         cur = conn.cursor()
         try:
             cur.execute('insert into warehouses(warehouse_name, enterprise, owner_name, mobile, username, password) values(%s, %s, %s, %s, %s, %s);', (name, enterprise, owner, mobile, username, password))
@@ -91,9 +97,9 @@ def signup_warehouse():
             return redirect(url_for('login'))
         except:
             cur.close()
-            return render_template('signup_warehouse1.html', fail = True)
+            return render_template('signup_warehouse1.html', fail = True, pass1 = False)
             # return <script>alert('username already taken')</script>
-    return render_template('signup_warehouse1.html', fail = False)
+    return render_template('signup_warehouse1.html', fail = False, pass1 = False)
 
 # @app.route('/users/')
 # def users():
@@ -187,6 +193,7 @@ def warehouse(user):
             listitem = request.form
             item_name = listitem['item_name']
             company = listitem['company']
+            user1 = int(user)
             try:
                 price = int(listitem['price'])
             except:
@@ -195,7 +202,6 @@ def warehouse(user):
                 itemlist = cur.fetchall()
                 cur.close()
                 return render_template('warehouse1.html', itemlist=itemlist, price_f=True)
-            user1 = int(user)
             # print(type(price))
             expiry_date = listitem['expiry_date']
             # print(listitem['availability'])
@@ -274,10 +280,10 @@ def selectitem(id, user):
             # cur.execute('insert into %(table)s (item_id,price, quantity) values (%s, %s,%s)', {"table":AsIs(table),items[i], price1,quantity[i]})
             try:
                 cur.execute('insert into %s (item_id, price, quantity) values (%%s, %%s, %%s)' %table, (items[i], price1,quantity[i]))
+                conn.commit()
             except:
                 cur.close()
                 return redirect('/selectitem/'+str(id)+'/'+str(user))
-            conn.commit()
         cur.close()
         return redirect('/cart/'+str(id)+'/'+str(user))
 

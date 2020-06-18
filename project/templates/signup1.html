@@ -31,7 +31,7 @@
         <div class="wrapper wrapper--w680">
             <div class="card card-4">
                 <div class="card-body">
-                    <h2 class="title">Registration Form</h2>
+                    <h2 class="title">Registration Form - Retail Store</h2>
                     <form method="POST" action="">
                         <div class="row row-space">
                             <div class="col-2">
@@ -56,16 +56,22 @@
                             </div>
                             <div class="col-2">
                                 <div class="input-group">
-                                    <label class="label">Password</label>
-                                    <input class="input--style-4" type="text" name="password">
+                                    <label class="label">Mobile Number</label>
+                                    <input class="input--style-4" type="text" name="Mobile">
                                 </div>
                             </div>
                         </div>
                         <div class="row row-space">
-                            <div class="col-2" style="width: 100%">
+                            <div class="col-2">
                                 <div class="input-group">
-                                    <label class="label">Mobile Number</label>
-                                    <input class="input--style-4" type="text" name="Mobile">
+                                    <label class="label">Password</label>
+                                    <input class="input--style-4" type="password" name="password">
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                <div class="input-group">
+                                    <label class="label">Confirm Password</label>
+                                    <input class="input--style-4" type="password" name="password2">
                                 </div>
                             </div>
                             <!-- <div class="col-2">
@@ -93,11 +99,13 @@
                         </div>
                         {%if fail%}
                         <div ><p style="text-align: center; margin-top: 20px; color: red;">Username already taken, please try another username</p></div>
+                        {%elif pass1%}
+                        <div><p style="text-align: center; margin-top: 20px; color: red;">Password do not match</p></div>
                         {% elif mob_f%}
                         <div><p style="text-align: center; margin-top: 20px; color: red;">Mobile Number Invalid</p></div>
                         {%endif%}
                         <div class="text-center">
-                    <p><a href="{{url_for('feedback')}}" class="txt2 hov1">
+                    <p style="text-align: center; margin-top: 20px;"><a href="{{url_for('feedback')}}" class="txt2 hov1">
                         Feedback
                     </a></p>
                     
