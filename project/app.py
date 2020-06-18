@@ -317,7 +317,7 @@ def orders(user):
         cur=conn.cursor()
         cur.execute('drop view if exists orders_dis')
         conn.commit()
-        cur.execute('create view orders_dis as select item_num, item_name, quantity, items.price, total, store_name, mobile from orders, items, users where orders.item_id = items.item_id and ware_id = (%s);',(user,))
+        cur.execute('create view orders_dis as select item_num, item_name, quantity, items.price, total, store_name, mobile from orders, items, users where orders.item_id = items.item_id and ware_id = (%s) and orders.shop_id=users.id;',(user,))
         conn.commit()
         # cur.execute('select * from orders where ware_id = (%s)', (user,))
         cur.execute('select * from orders_dis')
