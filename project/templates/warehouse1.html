@@ -145,9 +145,15 @@
                         </div>
                         
                     </form>
-                    <form method="POST" action="">
+                    <form method="POST" action="" enctype="multipart/form-data">
                         <div class="p-t-15">
                         <input type="submit" name="submit" value="Orders" class="btn btn--radius-2 btn--blue">
+                        </div>
+                        <div class="p-t-15 text-center" style="text-align: center; align-content: center;">
+                        <input type="file" name="upload_file" value="Submit" class="btn btn--radius-2 btn--blue">
+                        </div>
+                        <div class="p-t-15">
+                        <input type="submit" name="submit" value="Choose File" class="btn btn--radius-2 btn--blue">
                         </div>
                         <div class="text-center">
                     <p style="text-align: center; margin-top: 20px"><a href="{{url_for('feedback')}}" class="txt2 hov1">

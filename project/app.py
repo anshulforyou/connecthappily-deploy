@@ -4,6 +4,8 @@ import psycopg2
 from psycopg2 import sql
 from psycopg2._psycopg import AsIs
 from send_email import send_mail
+import xlrd
+from datetime import datetime
 
 app = Flask(__name__)
 
@@ -15,8 +17,8 @@ warehouse_id =0
 # app.config['MYSQL_DB']=''
 
 # mysql = MySQL(app)
-# conn = psycopg2.connect("host= localhost dbname = test user=postgres password=Santoshy1")
-conn = psycopg2.connect("postgres://fkzyohsugtczzh:f72e8cffd1edbb1a3be4a331af4f69d10496bdd303c8e13b36bb534e13e19980@ec2-3-231-16-122.compute-1.amazonaws.com:5432/d20m5bk52p5h8r")
+conn = psycopg2.connect("host= localhost dbname = test user=postgres password=Santoshy1")
+# conn = psycopg2.connect("postgres://fkzyohsugtczzh:f72e8cffd1edbb1a3be4a331af4f69d10496bdd303c8e13b36bb534e13e19980@ec2-3-231-16-122.compute-1.amazonaws.com:5432/d20m5bk52p5h8r")
 
 @app.route('/feedback/', methods=['GET','POST'])
 def feedback():
@@ -204,6 +206,8 @@ def warehouse(user):
                 return render_template('warehouse1.html', itemlist=itemlist, price_f=True)
             # print(type(price))
             expiry_date = listitem['expiry_date']
+            print(expiry_date)
+            print(type(expiry_date))
             # print(listitem['availability'])
             availibility =listitem['availability']
             # cur = conn.cursor()
@@ -224,6 +228,26 @@ def warehouse(user):
             conn.commit()
             cur.close()
             return redirect('/warehouse/' + user)
+        elif request.form['submit']=='Choose File':
+            file = request.files['upload_file']
+            print(file)
+            book = xlrd.open_workbook(file_contents=file.read())
+            sheet = book.sheet_by_index(0)
+            print(sheet.nrows)
+            cur = conn.cursor()
+            for i in range(1, sheet.nrows):
+                # item_id = sheet.cell(i, 0)
+                item_name = sheet.cell(i, 1).value
+                company = sheet.cell(i, 2).value
+                price = sheet.cell(i, 3).value
+                expiry = str(datetime.date(xlrd.xldate_as_datetime(sheet.cell(i, 4).value, book.datemode)))
+                available = sheet.cell(i, 5).value
+                cur.execute(
+                    "insert into items(item_name, company, expiry_date, price, availability, warehouse_id) values (%s, %s, %s, %s, %s, %s);",
+                    (item_name, company, expiry, price, available, int(user)))
+            conn.commit()
+            cur.close()
+            return redirect('/warehouse/'+user)
         else:
             return redirect('/view_orders/' +user)
     # if itemlist != None:
@@ -329,7 +353,7 @@ def orders(user):
         complete = request.form.getlist('completed')
         for i in complete:
             cur.execute("delete from orders where ware_id = (%s) and item_id= (%s)", (user, i));
-        conn.commit()
+            conn.commit()
         cur.close()
         return redirect('/view_orders/'+str(user))
 
