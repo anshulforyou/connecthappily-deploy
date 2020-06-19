@@ -329,7 +329,7 @@ def orders(user):
         complete = request.form.getlist('completed')
         for i in complete:
             cur.execute("delete from orders where ware_id = (%s) and item_id= (%s)", (user, i));
-        conn.commit()
+            conn.commit()
         cur.close()
         return redirect('/view_orders/'+str(user))
 
