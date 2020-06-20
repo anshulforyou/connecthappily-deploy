@@ -17,8 +17,8 @@ warehouse_id =0
 # app.config['MYSQL_DB']=''
 
 # mysql = MySQL(app)
-# conn = psycopg2.connect("host= localhost dbname = test user=postgres password=Santoshy1")
-conn = psycopg2.connect("postgres://fkzyohsugtczzh:f72e8cffd1edbb1a3be4a331af4f69d10496bdd303c8e13b36bb534e13e19980@ec2-3-231-16-122.compute-1.amazonaws.com:5432/d20m5bk52p5h8r")
+conn = psycopg2.connect("host= localhost dbname = test user=postgres password=Santoshy1")
+# conn = psycopg2.connect("postgres://fkzyohsugtczzh:f72e8cffd1edbb1a3be4a331af4f69d10496bdd303c8e13b36bb534e13e19980@ec2-3-231-16-122.compute-1.amazonaws.com:5432/d20m5bk52p5h8r")
 
 @app.route('/feedback/', methods=['GET','POST'])
 def feedback():
@@ -283,17 +283,22 @@ def selectitem(id, user):
     if request.method=='GET':
         cur = conn.cursor()
         cur.execute('select * from items where warehouse_id = (%s);', (id,))
-        items = cur.fetchall()
+        itemss = cur.fetchall()
         cur.close()
-        return render_template('selectitem1.html', itemlist=items)
+        return render_template('selectitem1.html', itemlist=itemss)
     else:
         cur = conn.cursor()
         items = request.form.getlist('select')
         quantity = request.form.getlist('quantity')
+        a=[]
+        for i in quantity:
+            if i != '':
+                a.append(i)
+        print(a)
         print(items)
-        print(quantity)
+        # print(quantity)
         table = "cart" + str(user)
-        cur.execute('drop table if exists %(table)s', {"table":AsIs(table)})
+        cur.execute('drop table if exists %(table)s cascade ', {"table":AsIs(table)})
         # cur.execute('drop table if exists %s')
         conn.commit()
         cur.execute('create table %(table)s (item_number serial primary key, item_id integer not null references items(item_id) on delete cascade , price integer not null, quantity integer not null, total integer generated always as (quantity*price) stored); ',{"table":AsIs(table)})
@@ -303,8 +308,9 @@ def selectitem(id, user):
             price1 = cur.fetchone()[0]
             # cur.execute('insert into %(table)s (item_id,price, quantity) values (%s, %s,%s)', {"table":AsIs(table),items[i], price1,quantity[i]})
             try:
-                cur.execute('insert into %s (item_id, price, quantity) values (%%s, %%s, %%s)' %table, (items[i], price1,quantity[i]))
+                cur.execute('insert into %s (item_id, price, quantity) values (%%s, %%s, %%s)' %table, (items[i], price1,a[i]))
                 conn.commit()
+                print('try block working')
             except:
                 cur.close()
                 return redirect('/selectitem/'+str(id)+'/'+str(user))
@@ -316,8 +322,14 @@ def cart(user,ware_id):
     if request.method == 'GET':
         cur = conn.cursor()
         table = 'cart'+str(user)
-        cur.execute('select * from %(table)s', {"table":AsIs(table)})
+        # cur.execute('select * from %(table)s', {"table":AsIs(table)})
+        cur.execute('drop view if exists cart_dis')
+        conn.commit()
+        cur.execute('create view cart_dis as select item_name, company, items.price, quantity, total from items, %(table)s where %(table)s.item_id = items.item_id;',{"table":AsIs(table)})
+        conn.commit()
+        cur.execute('select * from cart_dis')
         items = cur.fetchall()
+        print(items)
         cur.close()
         return render_template('cart1.html', list=items, order=False)
     else:
@@ -328,9 +340,10 @@ def cart(user,ware_id):
             items = cur.fetchall()
             for i in items:
                 cur.execute('delete from orders where item_id = (%s) and shop_id = (%s) and ware_id = (%s)', (i[1], user, ware_id))
+                conn.commit()
                 cur.execute('insert into orders(item_num, item_id, price, quantity, shop_id, ware_id) values(%s, %s, %s, %s, %s, %s)',(i[0], i[1],i[2],i[3],user, ware_id))
                 conn.commit()
-            cur.close
+            cur.close()
             return render_template('cart1.html', list=items, order=True)
         else:
             return redirect('/selectitem/'+str(ware_id)+'/'+str(user))
@@ -341,7 +354,7 @@ def orders(user):
         cur=conn.cursor()
         cur.execute('drop view if exists orders_dis')
         conn.commit()
-        cur.execute('create view orders_dis as select item_num, item_name, quantity, items.price, total, store_name, mobile from orders, items, users where orders.item_id = items.item_id and ware_id = (%s) and orders.shop_id=users.id;',(user,))
+        cur.execute('create view orders_dis as select orders.item_id, item_name, quantity, items.price, total, store_name, mobile from orders, items, users where orders.item_id = items.item_id and ware_id = (%s) and orders.shop_id=users.id;',(user,))
         conn.commit()
         # cur.execute('select * from orders where ware_id = (%s)', (user,))
         cur.execute('select * from orders_dis')
@@ -358,4 +371,5 @@ def orders(user):
         return redirect('/view_orders/'+str(user))
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    # app.run(debug=True)
+    app.run()
