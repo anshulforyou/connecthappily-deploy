@@ -300,7 +300,7 @@ def selectitem(id, user):
         table = "cart" + str(user)
         cur.execute('drop table if exists %(table)s cascade ', {"table":AsIs(table)})
         # cur.execute('drop table if exists %s')
-        conn.commit()
+        # conn.commit()
         cur.execute('create table %(table)s (item_number serial primary key, item_id integer not null references items(item_id) on delete cascade , price integer not null, quantity integer not null, total integer generated always as (quantity*price) stored); ',{"table":AsIs(table)})
         conn.commit()
         for i in range(0, len(items)):
@@ -317,6 +317,8 @@ def selectitem(id, user):
         cur.close()
         return redirect('/cart/'+str(id)+'/'+str(user))
 
+itemss=[]
+
 @app.route('/cart/<int:ware_id>/<int:user>', methods=['GET','POST'])
 def cart(user,ware_id):
     if request.method == 'GET':
@@ -324,14 +326,15 @@ def cart(user,ware_id):
         table = 'cart'+str(user)
         # cur.execute('select * from %(table)s', {"table":AsIs(table)})
         cur.execute('drop view if exists cart_dis')
-        conn.commit()
+        # conn.commit()
         cur.execute('create view cart_dis as select item_name, company, items.price, quantity, total from items, %(table)s where %(table)s.item_id = items.item_id;',{"table":AsIs(table)})
         conn.commit()
         cur.execute('select * from cart_dis')
-        items = cur.fetchall()
-        print(items)
+        global itemss
+        itemss = cur.fetchall()
+        print(itemss)
         cur.close()
-        return render_template('cart1.html', list=items, order=False)
+        return render_template('cart1.html', list=itemss, order=False)
     else:
         if request.form['submit']=='Place Order':
             cur = conn.cursor()
@@ -340,20 +343,27 @@ def cart(user,ware_id):
             items = cur.fetchall()
             for i in items:
                 cur.execute('delete from orders where item_id = (%s) and shop_id = (%s) and ware_id = (%s)', (i[1], user, ware_id))
-                conn.commit()
+                # conn.commit()
                 cur.execute('insert into orders(item_num, item_id, price, quantity, shop_id, ware_id) values(%s, %s, %s, %s, %s, %s)',(i[0], i[1],i[2],i[3],user, ware_id))
-                conn.commit()
+                # conn.commit()
+            conn.commit()
             cur.close()
-            return render_template('cart1.html', list=items, order=True)
+            return redirect('/slip')
+            # return render_template('slip.html')
+            # return render_template('cart1.html', list=itemss, order=True)
         else:
             return redirect('/selectitem/'+str(ware_id)+'/'+str(user))
+
+@app.route('/slip')
+def slip():
+    return render_template('slip.html')
 
 @app.route('/view_orders/<int:user>', methods=['GET','POST'])
 def orders(user):
     if request.method == 'GET':
         cur=conn.cursor()
         cur.execute('drop view if exists orders_dis')
-        conn.commit()
+        # conn.commit()
         cur.execute('create view orders_dis as select orders.item_id, item_name, quantity, items.price, total, store_name, mobile from orders, items, users where orders.item_id = items.item_id and ware_id = (%s) and orders.shop_id=users.id;',(user,))
         conn.commit()
         # cur.execute('select * from orders where ware_id = (%s)', (user,))
@@ -366,7 +376,7 @@ def orders(user):
         complete = request.form.getlist('completed')
         for i in complete:
             cur.execute("delete from orders where ware_id = (%s) and item_id= (%s)", (user, i));
-            conn.commit()
+        conn.commit()
         cur.close()
         return redirect('/view_orders/'+str(user))
 
