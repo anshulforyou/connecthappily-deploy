@@ -270,7 +270,7 @@ def selectwarehouse(user):
         cur = conn.cursor()
         cur.execute('select * from warehouses')
         ware = cur.fetchall()
-        cur.close
+        cur.close()
         return render_template('selectwarehouse1.html', ware = ware)
     else:
         # cur = conn.cursor()
@@ -307,13 +307,14 @@ def selectitem(id, user):
             cur.execute('select price from items where item_id = (%s)',(items[i],))
             price1 = cur.fetchone()[0]
             # cur.execute('insert into %(table)s (item_id,price, quantity) values (%s, %s,%s)', {"table":AsIs(table),items[i], price1,quantity[i]})
-            try:
-                cur.execute('insert into %s (item_id, price, quantity) values (%%s, %%s, %%s)' %table, (items[i], price1,a[i]))
-                conn.commit()
-                print('try block working')
-            except:
-                cur.close()
-                return redirect('/selectitem/'+str(id)+'/'+str(user))
+            # try:
+            cur.execute('insert into %s (item_id, price, quantity) values (%%s, %%s, %%s)' %table, (items[i], price1,a[i]))
+            # conn.commit()
+            print('try block working')
+            # except:
+            #     cur.close()
+            #     return redirect('/selectitem/'+str(id)+'/'+str(user))
+        conn.commit()
         cur.close()
         return redirect('/cart/'+str(id)+'/'+str(user))
 
