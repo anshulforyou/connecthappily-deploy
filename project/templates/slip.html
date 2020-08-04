@@ -23,8 +23,27 @@
 </head>
 
 <body>
-    <div class="page-wrapper bg-gra-02 p-t-130 p-b-100 font-poppins">
-        <div class="wrapper wrapper--w680">
+    <div
+      class="page-wrapper bg-gra-02 p-b-100 font-poppins"
+      style="background: #1c1c1c;"
+    >
+      <div class="navbar">
+        <ul style="margin-left: auto; margin-right: auto;">
+          <li>
+            <img
+              src="{{url_for('static',filename='images/logo4.jpg')}}"
+              style="
+                width: 30%;
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+                /* padding-left: 50%; */
+              "
+            />
+          </li>
+        </ul>
+      </div>
+      <div class="wrapper wrapper--w680">
             <div class="card card-4">
                 <div class="card-body">
                     <h2 class="title">Order Placed Successfully</h2>

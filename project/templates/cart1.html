@@ -10,13 +10,18 @@
     <!-- <meta name="keywords" content="Colorlib Templates"> -->
 
     <!-- Title Page-->
-    <title>Orders</title>
+    <title>Cart</title>
 
     <!-- Icons font CSS-->
     <link href="vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
     <link href="vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
     <!-- Font special for pages-->
     <link href="https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+    <script
+      src="https://kit.fontawesome.com/50a19aa0cf.js"
+      crossorigin="anonymous"
+    ></script>
 
     <!-- Vendor CSS-->
     <link href="vendor/select2/select2.min.css" rel="stylesheet" media="all">
@@ -27,11 +32,34 @@
 </head>
 
 <body>
-    <div class="page-wrapper bg-gra-02 p-t-130 p-b-100 font-poppins">
+    <div
+      class="page-wrapper bg-gra-02 p-b-100 font-poppins"
+      style="background: #1c1c1c;"
+    >
+      <div class="navbar">
+        <ul style="margin-left: auto; margin-right: auto;">
+          <li>
+            <img
+              src="{{url_for('static',filename='images/logo4.jpg')}}"
+              style="
+                width: 30%;
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+                /* padding-left: 50%; */
+              "
+            />
+          </li>
+        </ul>
+      </div>
         <div class="wrapper wrapper--w680">
             <div class="card card-4">
                 <div class="card-body">
-                    <h2 class="title">Please confirm your order</h2>
+                    <button style="display: inline-block;" onclick="history.back()"><i class="fas fa-chevron-circle-left fa-lg"></i></button>
+                    <div style="text-align: center;">
+                    <h2 class="title" style="display: inline-block;">Please Confirm your Order</h2>
+                    </div>
+                    <!-- <h2 class="title">Please confirm your order</h2> -->
                     <!-- <h2>Responsive Table</h2> -->
                     <div class="table-wrapper">
                         <form method="POST" action="">
