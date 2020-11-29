@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <title>Home</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+      integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}" />
+  </head>
+  <body>
+    <!-- <div class="container-fluid"> -->
+      <div class="row">
+        <div class="col-6">
+          <img src="{{url_for('static',filename='images/logo.jpg')}}" alt="logo" style="width: 100%; height: 100%;" />
+        </div>
+        <div class="col-6">
+          <!-- <h1>testing</h1> -->
+          <ul class="mr-auto">
+            <li><a href="{{url_for('login')}}">Login</a></li>
+            <li><a href="{{url_for('signup_type')}}">SignUp</a></li>
+            <!-- <li>Contact Us</li> -->
+            <!-- <li>Services</li> -->
+          </ul>
+          <div class="row">
+          <div class="col-1"></div>
+          <div class="col-9 text-center des">
+            <p style="color: white;">
+              We focus on connecting warehouses to retailers through the use of
+              technology
+            </p>
+            <p style="color: #ececec">A single platform solution for warehouse, retail store, and drivers, which will help them to take orders online, give the live location of their goods to the warehouse and create a suitable and efficient route for the drivers. Eventually, the app will automatically help in inventory management at the retail store end.</p>
+          </div>
+        </div>
+        </div>
+      </div>
+    <!-- </div> -->
+
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+      integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

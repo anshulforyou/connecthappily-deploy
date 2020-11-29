@@ -1,0 +1,46 @@
+body,
+html {
+  height: 100%;
+  background-color: black;
+}
+.half {
+  background-image: url(logo.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-color: black;
+  width: 50%;
+  height: 100%;
+}
+
+.half_2 {
+  width: 50%;
+  /* float: right; */
+}
+.container {
+  width: 100%;
+  margin: auto;
+  padding: auto;
+}
+
+ul {
+  list-style: none;
+  /* margin: 0; */
+  /* padding: 0; */
+  padding-top: 10px;
+  margin-left: 70%;
+}
+
+li {
+  color: white;
+  display: inline;
+  margin: auto;
+  /* padding-top: 40px; */
+  /*margin-left: 120px;*/
+}
+
+.des {
+  margin-top: auto;
+  margin-bottom: auto;
+  padding-top: 20%;
+  /* padding-bottom: 50%; */
+}
