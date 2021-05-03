@@ -17,7 +17,7 @@ warehouse_id =0
 # app.config['MYSQL_DB']=''
 
 # mysql = MySQL(app)
-# conn = psycopg2.connect("host= localhost dbname = test user=postgres password=Santoshy1")
+# conn = psycopg2.connect("host= localhost dbname = test user=postgres password=")
 conn = psycopg2.connect("postgres://fkzyohsugtczzh:f72e8cffd1edbb1a3be4a331af4f69d10496bdd303c8e13b36bb534e13e19980@ec2-3-231-16-122.compute-1.amazonaws.com:5432/d20m5bk52p5h8r")
 
 @app.route('/')
